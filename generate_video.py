@@ -3,7 +3,7 @@
 # Date: 02/22/20 - 02/23/20
 # Created by: Michael Larson, David Allen, Meghna Dutta, and Peter Wang
 # Description: A .py file that takes the words that are given to it and puts it into a video.
-# Link: https://http://pydub.com/
+# Link: https://http://pydub.com/, https://zulko.github.io/moviepy/getting_started/quick_presentation.html
 
 import moviepy.editor as mp
 import numpy as np
@@ -34,13 +34,13 @@ def generate_text_clips(text_list, times=[]):
             dur = 1
         else:
             try:
-                dur = np.ceil(float(times[c+1]) - float(times[c]))
+                dur = float(times[c+1]) - float(times[c])
             except IndexError:
                 dur = 1
             
         txt_clip = txt_clip.set_pos('center').set_duration(dur)
         rgb = random_rgb()
-        clip = generate_blank_video((960,540), rgb, 1)
+        clip = generate_blank_video((960,540), rgb, dur)
         vid = mp.CompositeVideoClip([clip, txt_clip])
         clip_list.append(vid)
     return clip_list
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     rgb = random_rgb()
     audioclip = mp.AudioFileClip("Recording3.wav")
     clip_list = []
-    start_clip = generate_blank_video((960,540), rgb, 2)
+    start_clip = generate_blank_video((960,540), rgb, 1)
     clip_list.append(start_clip)
     # Insert array of words for the song
     clip_list.extend(generate_text_clips(["Peter's","New","Song"]))
